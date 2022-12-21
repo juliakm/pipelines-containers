@@ -17,7 +17,7 @@ To set up a local self-hosted agent, you'll first build your Docker image and th
     docker build -t dockeragent:latest .
     ```
 
-2. Install the latest version of the agent, configures it, and runs the agent. The script targets the `myAgentPool` pool of a specified Azure DevOps or Azure DevOps Server instance of your choice. Replace the `<PAT token>` and`<Azure DevOps instance>` values. Your PAT token needs to have read and write permission for agent pools.
+2. Install the latest version of the pipelines agent. Then, configures and run the agent. The agent script targets the `myAgentPool` pool of a specified Azure DevOps or Azure DevOps Server instance of your choice. Replace the `<PAT token>` and`<Azure DevOps instance>` values. Your PAT token needs to have read and write permission for agent pools.
 
     ```code
     docker run -e AZP_URL=<Azure DevOps instance> -e AZP_TOKEN=<PAT token> -e AZP_POOL=myAgentPool -e AZP_AGENT_NAME=mydockeragent dockeragent:latest
