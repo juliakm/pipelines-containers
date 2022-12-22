@@ -37,3 +37,50 @@ To set up a local self-hosted agent, you'll first build your Docker image and th
     ```
 
 5. Run your pipeline and verify that the run completes successfully.
+
+### Push the dockeragent image to Azure Container Registry 
+
+1. Create an Azure Container Registry if you do not have one already. If you need to create a container registry, see  [this quickstart](https://learn.microsoft.com/azure/container-registry/container-registry-get-started-portal?tabs=azure-cli).
+
+2.  Log in to Azure Container Registry locally. 
+
+    ```code
+    az acr login --name <acrname>
+    ```
+3. Tag your Docker image.
+
+    ```
+    docker tag dockeragent <registry-name>.azurecr.io/dockeragent:v1
+    ```
+
+4. Push the image to Azure Container Registry. 
+
+    ```code
+    docker push <registry-name>.azurecr.io/dockeragent:v1
+    ```
+
+### Create a Azure Container Instance from the image
+
+1. Create a new Agent Pool, for example `myACIAgentPool`.
+
+2. Create a new container instance and pass the following environment variables. *This step should be replaced by [secure values](https://learn.microsoft.com/azure/container-instances/container-instances-environment-variables)*. 
+
+    * AZP_TOKEN: Your Azure DevOps personal access token
+    * AZP_AGENT_NAME: Name of the Azure DevOps Agent (example: `myUbuntuAgent`)
+    * AZP_POOL: Name of the Azure DevOps Agent Pool (example: `MyACIAgentPool`)
+    * AZP_URL: URL for your Azure DevOps organization (example: `https://dev.azure.com/fabrikam`)
+
+3. Check logs to make sure your container is running. 
+
+    ```code
+    az container attach --resource-group <resource-group> --name <aci-name>
+    ```
+
+4. Update an existing Azure Pipeline YAML file to use your new agent.
+
+    ```yml
+        pool:
+          name: myACIAgentPool   
+    ```
+
+5. Run your pipeline and verify that the run completes successfully.
