@@ -70,6 +70,7 @@ To set up a local self-hosted agent, you'll first build your Docker image and th
     * AZP_POOL: Name of the Azure DevOps Agent Pool (example: `MyACIAgentPool`)
     * AZP_URL: URL for your Azure DevOps organization (example: `https://dev.azure.com/fabrikam`)
 
+
     ```code
     az container create \
         --resource-group <resource-group> \
