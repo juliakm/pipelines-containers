@@ -70,6 +70,15 @@ To set up a local self-hosted agent, you'll first build your Docker image and th
     * AZP_POOL: Name of the Azure DevOps Agent Pool (example: `MyACIAgentPool`)
     * AZP_URL: URL for your Azure DevOps organization (example: `https://dev.azure.com/fabrikam`)
 
+    ```code
+    az container create \
+        --resource-group <resource-group> \
+        --name <ACI-name> \
+        --image <ACR-name>.azurecr.io/dockeragent:v1 \
+        --dns-name-label aci-acr-demo --ports 80 \
+        --environment-variables 'AZP_TOKEN'='<PAT>’ 'AZP_AGENT_NAME’=‘<AGENT_NAME>’ 'AZP_POOL'='MyACIAgentPool' 'AZP_URL'='https://dev.azure.com/fabrikam' 
+    ```
+
 3. Check logs to make sure your container is running. 
 
     ```code
