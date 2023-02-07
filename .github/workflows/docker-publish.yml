@@ -4,6 +4,10 @@ on:
   push:
     branches: ['release']
 
+defaults:
+  run:
+    working-directory: ubuntu/dockeragent # The working directory path
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
