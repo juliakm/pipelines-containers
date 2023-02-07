@@ -7,6 +7,8 @@
 # AZP_URL
 # RESOURCE_GROUP
 
+set -x #echo on
+
 read -p "Enter Azure DevOps PAT " AZP_TOKEN
 
 read -p "Enter Agent name (Press enter for MyContainerAgent) " AZP_AGENT_NAME
