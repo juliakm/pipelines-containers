@@ -25,6 +25,6 @@ read -p "Enter Azure Container Instance name (must be unique in Azure) " ACI_NAM
 
 read -p "Enter ACI DNS Name " ACI_DNS
 
-# echo "az container create --resource-group ${RESOURCE_GROUP} --name ${ACI_NAME} --image ghcr.io/juliakm/pipelines-containers:main --dns-name-label aci-acr-demo --ports 80 --environment-variables 'AZP_TOKEN'='${AZP_TOKEN}' 'AZP_AGENT_NAME'='${AZP_AGENT_NAME}' 'AZP_POOL'='${AZP_POOL}' 'AZP_URL'='https://dev.azure.com/${AZP_ORG}'"
+# echo "az container create --resource-group ${RESOURCE_GROUP} --name ${ACI_NAME} --image ghcr.io/juliakm/pipelines-containers:main --dns-name-label aci-acr-demo --ports 80 --environment-variables "AZP_TOKEN"="${AZP_TOKEN}" "AZP_AGENT_NAME"="${AZP_AGENT_NAME}" "AZP_POOL"="${AZP_POOL}" "AZP_URL"="https://dev.azure.com/${AZP_ORG}""
 
-az container create --resource-group ${RESOURCE_GROUP} --name ${ACI_NAME} --image ghcr.io/juliakm/pipelines-containers:main --dns-name-label ${ACI_DNS} --ports 80 --environment-variables 'AZP_TOKEN'='$AZP_TOKEN' 'AZP_AGENT_NAME'='$AZP_AGENT_NAME' 'AZP_POOL'='$AZP_POOL' 'AZP_URL'='https://dev.azure.com/$AZP_ORG'
+az container create --resource-group ${RESOURCE_GROUP} --name ${ACI_NAME} --image ghcr.io/juliakm/pipelines-containers:main --dns-name-label ${ACI_DNS} --ports 80 --environment-variables "AZP_TOKEN"="$AZP_TOKEN" "AZP_AGENT_NAME"="$AZP_AGENT_NAME" "AZP_POOL"="$AZP_POOL" "AZP_URL"="https://dev.azure.com/$AZP_ORG"
