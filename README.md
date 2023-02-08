@@ -61,9 +61,9 @@ To set up a local self-hosted agent, you'll first build your Docker image and th
 
 ### Create a Azure Container Instance from the image
 
-1. Create a new Agent Pool, for example `myACIAgentPool`.
+1. Go to **Organization settings** > **Agent pools** and create a new agent pool (For example `myACIAgentPool`). If you do not create a new agent pool or use an existing agent pool, your Azure Container Instance will crash with the error `Agent pool not found`. 
 
-2. Create a new container instance and pass the following environment variables. *This step should be replaced by [secure values](https://learn.microsoft.com/azure/container-instances/container-instances-environment-variables)*. 
+2. Create a new container instance and pass the following environment variables. *This step should be replaced by [secure values](https://learn.microsoft.com/azure/container-instances/container-instances-environment-variables)*. You'll need to enter your Container Registry username and password as part of this step. Find the username and password in Azure portal in  **Access keys** and enable the Admin user. 
 
     * AZP_TOKEN: Your Azure DevOps personal access token
     * AZP_AGENT_NAME: Name of the Azure DevOps Agent (example: `myUbuntuAgent`)
