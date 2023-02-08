@@ -12,14 +12,19 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
     jq \
     lsb-release \
     software-properties-common \
-    # .NET dependencies
-    libc6 \
-    libgcc1 \
-    libgssapi-krb5-2 \
-    libicu66 \
-    libssl1.1 \
-    libstdc++6 \
-    zlib1g \
+    wget \
+    \
+    # Install Microsoft package feed
+    && wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
+    && dpkg -i packages-microsoft-prod.deb \
+    && rm packages-microsoft-prod.deb \
+    \
+    # Install .NET
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        dotnet-runtime-6.0 \
+    \
+    # Cleanup
     && rm -rf /var/lib/apt/lists/*
 
 
