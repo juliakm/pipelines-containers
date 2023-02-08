@@ -11,7 +11,7 @@ This repo contains code samples used in [Run a self-hosted agent in Docker](http
 
 To set up a local self-hosted agent, you'll first build your Docker image and then run the container. When the container is running, you'll install the Azure Pipelines agent.  
 
-1. Go to `ubuntu/dockeragent` and build your container.
+1. Go to `ubuntu/dockeragent` and build your image.
 
     ```code
     docker build -t dockeragent:latest .

@@ -20,7 +20,7 @@ ENV TARGETARCH=linux-x64
 
 WORKDIR /azp
 
-COPY ./start.sh .
+COPY ./ubuntu/dockeragent/start.sh .
 RUN chmod +x start.sh
 
 ENTRYPOINT [ "./start.sh" ]
