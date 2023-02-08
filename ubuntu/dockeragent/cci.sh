@@ -1,11 +1,15 @@
-# Prompt for input and then create an Azure COntainer Instance
-# read -p "What is your name? " my_var 
-
-# AZP_TOKEN
-# AZP_AGENT_NAME
-# AZP_POOL
-# AZP_URL
-# RESOURCE_GROUP
+# Prompt for input and then create an Azure Container Instance
+#
+# Usage
+# There are two ways to run the script
+# 1. Run it with no parameters
+#    cci.sh
+#    The user is prompted for PAT, org name, and resource group
+# 2. Run it with the resource group name as a parameter
+#    cci.sh resource-group-name
+#    If running this from a learn training module, we can provide the script name
+#    with the resource group as a parameter
+#    Then the only two prompts are PAT and org name
 
 # set -x #echo on
 
@@ -26,7 +30,7 @@ read -p "Enter Azure DevOps organization name " AZP_ORG
 
 if [ -z "$1" ]
 then
-  # If we didn't get a resource group passed as the first argument, then read it
+  # If we didn't get a resource group passed as the first argument, then prompt
   read -p "Enter Azure Resource Group " RESOURCE_GROUP
 else
   # Use argument #1
@@ -50,4 +54,4 @@ echo $ACI_DNS
 echo $RESOURCE_GROUP
 
 set -x #echo on
-# az container create --resource-group ${RESOURCE_GROUP} --name ${ACI_NAME} --image ghcr.io/juliakm/pipelines-containers:main --dns-name-label ${ACI_DNS} --ports 80 --environment-variables "AZP_TOKEN"="$AZP_TOKEN" "AZP_AGENT_NAME"="$AZP_AGENT_NAME" "AZP_POOL"="$AZP_POOL" "AZP_URL"="https://dev.azure.com/$AZP_ORG"
+az container create --resource-group ${RESOURCE_GROUP} --name ${ACI_NAME} --image ghcr.io/juliakm/pipelines-containers:main --dns-name-label ${ACI_DNS} --ports 80 --environment-variables "AZP_TOKEN"="$AZP_TOKEN" "AZP_AGENT_NAME"="$AZP_AGENT_NAME" "AZP_POOL"="$AZP_POOL" "AZP_URL"="https://dev.azure.com/$AZP_ORG"
