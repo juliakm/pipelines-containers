@@ -1,0 +1,53 @@
+# Prompt for input and then create an Azure COntainer Instance
+# read -p "What is your name? " my_var 
+
+# AZP_TOKEN
+# AZP_AGENT_NAME
+# AZP_POOL
+# AZP_URL
+# RESOURCE_GROUP
+
+# set -x #echo on
+
+# Generate a unique integer (date in seconds) to be used for generating unique identifiers
+# in the scope of the sandbox
+DATE_SEC=$(date +%s)
+
+read -p "Enter Azure DevOps PAT " AZP_TOKEN
+
+# read -p "Enter Agent name (Press enter for MyContainerAgent) " AZP_AGENT_NAME
+# echo ${AZP_AGENT_NAME:=MyContainerAgent}
+AZP_AGENT_NAME="container_agent_${DATE_SEC}"
+
+# read -p "Enter Agent pool (Press enter for Default) " AZP_POOL
+# echo ${AZP_POOL:=Default}
+
+read -p "Enter Azure DevOps organization name " AZP_ORG
+
+if [ -z "$1" ]
+then
+  # If we didn't get a resource group passed as the first argument, then read it
+  read -p "Enter Azure Resource Group " RESOURCE_GROUP
+else
+  # Use argument #1
+  RESOURCE_GROUP=$1
+  echo "Resource group: ${RESOURCE_GROUP}"
+fi
+
+
+
+
+# read -p "Enter Azure Container Instance name (must be unique in Azure) " ACI_NAME
+ACI_NAME="ACI_${DATE_SEC}_${RESOURCE_GROUP}"
+
+# read -p "Enter ACI DNS Name " ACI_DNS
+ACI_DNS="ACI_DNS_${DATE_SEC}_${RESOURCE_GROUP}"
+
+echo $DATE_SEC
+echo $AZP_AGENT_NAME
+echo $ACI_NAME
+echo $ACI_DNS
+echo $RESOURCE_GROUP
+
+set -x #echo on
+# az container create --resource-group ${RESOURCE_GROUP} --name ${ACI_NAME} --image ghcr.io/juliakm/pipelines-containers:main --dns-name-label ${ACI_DNS} --ports 80 --environment-variables "AZP_TOKEN"="$AZP_TOKEN" "AZP_AGENT_NAME"="$AZP_AGENT_NAME" "AZP_POOL"="$AZP_POOL" "AZP_URL"="https://dev.azure.com/$AZP_ORG"
