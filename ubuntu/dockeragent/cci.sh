@@ -42,10 +42,10 @@ fi
 
 
 # read -p "Enter Azure Container Instance name (must be unique in Azure) " ACI_NAME
-ACI_NAME="ACI_${DATE_SEC}_${RESOURCE_GROUP}"
+ACI_NAME="aci-${DATE_SEC}-${RESOURCE_GROUP}"
 
 # read -p "Enter ACI DNS Name " ACI_DNS
-ACI_DNS="ACI_DNS_${DATE_SEC}_${RESOURCE_GROUP}"
+ACI_DNS="aci-dns-${DATE_SEC}-${RESOURCE_GROUP}"
 
 echo $DATE_SEC
 echo $AZP_AGENT_NAME
