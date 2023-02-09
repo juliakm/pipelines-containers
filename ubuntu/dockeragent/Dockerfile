@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM mcr.microsoft.com/dotnet/sdk:6.0-focal-amd64 as dotnet
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
@@ -22,6 +22,16 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
     zlib1g \
     && rm -rf /var/lib/apt/lists/*
 
+
+# Install NodeJS
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get -qqy --no-install-recommends install nodejs
+
+# Create user "node"
+RUN groupadd --gid 1000 node \
+    && useradd --uid 1000 --gid node --shell /bin/bash --create-home node
+
+RUN npm install --global gulp-cli
 
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
