@@ -33,12 +33,6 @@ RUN groupadd --gid 1000 node \
 
 RUN npm install --global gulp-cli
 
-#Node Install
-# RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
-#     apt-get update && \
-#     apt-get install -yq nodejs && \
-#     rm -rf /var/lib/apt/lists/*
-
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
 # Can be 'linux-x64', 'linux-arm64', 'linux-arm', 'rhel.6-x64'.
