@@ -1,4 +1,6 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0-focal-amd64
+FROM node:lts-bullseye-slim AS node
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0-focal-amd64 as dotnet
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
@@ -24,10 +26,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
 
 
 #Node Install
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
-    apt-get update && \
-    apt-get install -yq nodejs && \
-    rm -rf /var/lib/apt/lists/*
+# RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
+#     apt-get update && \
+#     apt-get install -yq nodejs && \
+#     rm -rf /var/lib/apt/lists/*
 
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
