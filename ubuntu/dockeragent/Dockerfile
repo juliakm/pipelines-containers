@@ -20,8 +20,14 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
     libssl1.1 \
     libstdc++6 \
     zlib1g \
+    npm \
     && rm -rf /var/lib/apt/lists/*
 
+
+# Install Node
+RUN npm install npm@lts -g && \
+    npm install n -g && \
+    n lts
 
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
