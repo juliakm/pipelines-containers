@@ -24,7 +24,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
 
 
 #Node Install
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
     apt-get update && \
     apt-get install -yq nodejs && \
     rm -rf /var/lib/apt/lists/*
