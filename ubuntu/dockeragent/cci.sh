@@ -24,7 +24,7 @@ read -p "Enter Azure DevOps PAT " AZP_TOKEN
 AZP_AGENT_NAME="container_agent_${DATE_SEC}"
 
 # read -p "Enter Agent pool (Press enter for Default) " AZP_POOL
-# echo ${AZP_POOL:=Default}
+echo ${AZP_POOL:=Default}
 
 read -p "Enter Azure DevOps organization name " AZP_ORG
 
