@@ -20,18 +20,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
     libssl1.1 \
     libstdc++6 \
     zlib1g \
+    nodejs \
     && rm -rf /var/lib/apt/lists/*
-
-
-# Node
-# Uncomment your target version
-# RUN curl -fsSL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-# RUN curl -fsSL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-RUN curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-# RUN curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-RUN sudo apt-get install -y nodejs
-RUN echo "NODE Version:" && node --version
-RUN echo "NPM Version:" && npm --version
 
 
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
