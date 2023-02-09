@@ -21,6 +21,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
     libstdc++6 \
     zlib1g \
     nodejs \
+    npm \
     && rm -rf /var/lib/apt/lists/*
 
 
