@@ -12,7 +12,9 @@
 #    Then the only two prompts are PAT and org name
 
 # set -x #echo on
-
+# Generate a unique integer (date in seconds) to be used for generating unique identifiers
+# in the scope of the sandbox
+DATE_SEC=$(date +%s)
 
 read -p "Enter Azure DevOps PAT " AZP_TOKEN
 
@@ -36,9 +38,7 @@ else
   echo "Resource group: ${RESOURCE_GROUP}"
 fi
 
-# Generate a unique integer (date in seconds) to be used for generating unique identifiers
-# in the scope of the sandbox
-DATE_SEC=$(date +%s)
+
 
 
 # Create an ACR to hold the new image
@@ -90,5 +90,5 @@ set -x #echo on
 # az container create --resource-group ${RESOURCE_GROUP} --name ${ACI_NAME} --image ghcr.io/juliakm/pipelines-containers:main --dns-name-label ${ACI_DNS} --ports 80 --environment-variables "AZP_TOKEN"="$AZP_TOKEN" "AZP_AGENT_NAME"="$AZP_AGENT_NAME" "AZP_POOL"="$AZP_POOL" "AZP_URL"="https://dev.azure.com/$AZP_ORG"
 
 # This one uses secure environment variables for PAT
-az container create --resource-group ${RESOURCE_GROUP} --name ${ACI_NAME} --image $ACR_LOGIN_SERVER/containeragent:v1 --dns-name-label ${ACI_DNS} --ports 80 --secure-environment-variables "AZP_TOKEN"="$AZP_TOKEN" --environment-variables "AZP_AGENT_NAME"="$AZP_AGENT_NAME" "AZP_POOL"="$AZP_POOL" "AZP_URL"="https://dev.azure.com/$AZP_ORG" --registry-username $ACR_LOGIN --registry-password $ACR_PWD --location $ACR_LOCATION
+az container create --resource-group ${RESOURCE_GROUP} --name ${ACI_NAME} --image $ACR_NAME.azurecr.io/containeragent:v1 --dns-name-label ${ACI_DNS} --ports 80 --secure-environment-variables "AZP_TOKEN"="$AZP_TOKEN" --environment-variables "AZP_AGENT_NAME"="$AZP_AGENT_NAME" "AZP_POOL"="$AZP_POOL" "AZP_URL"="https://dev.azure.com/$AZP_ORG" --registry-username $ACR_LOGIN --registry-password $ACR_PWD --registry-login-server $ACR_NAME.azurecr.io --location $ACR_LOCATION
 
