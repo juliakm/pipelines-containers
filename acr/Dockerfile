@@ -40,7 +40,7 @@ ENV TARGETARCH=linux-x64
 
 WORKDIR /azp
 
-COPY https://raw.githubusercontent.com/juliakm/pipelines-containers/main/ubuntu/dockeragent/start.sh ./start.sh
+ADD https://raw.githubusercontent.com/juliakm/pipelines-containers/main/ubuntu/dockeragent/start.sh ./start.sh
 RUN chmod +x start.sh
 
 ENTRYPOINT [ "./start.sh" ]
