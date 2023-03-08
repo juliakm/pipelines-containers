@@ -64,9 +64,10 @@ az acr credential show --name $ACR_NAME
 ACR_LOGIN=$(az acr credential show --name $ACR_NAME --output tsv --query [username])
 ACR_PWD=$(az acr credential show --name $ACR_NAME --output tsv --query [passwords[0].value])
 
+# Verify the image a second time
+az acr repository list --name $ACR_NAME --output table
 
-
-
+read "press enter"
 
 
 
