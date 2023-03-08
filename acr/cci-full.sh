@@ -67,7 +67,7 @@ ACR_PWD=$(az acr credential show --name $ACR_NAME --output tsv --query [password
 # Verify the image a second time
 az acr repository list --name $ACR_NAME --output table
 
-read "press enter"
+read -p "Some delay then presse enter " ACI_DELAY_PLACE
 
 
 
