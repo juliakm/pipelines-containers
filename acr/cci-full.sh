@@ -44,7 +44,7 @@ fi
 # Create an ACR to hold the new image
 ACR_NAME="acrlearn${DATE_SEC}"
 
-az acr create --resource-group $RESOURCE_GROUP --name $ACR_NAME --sku Basic
+az acr create --resource-group $RESOURCE_GROUP --name $ACR_NAME --sku Basic --location eastus
 
 ACR_LOCATION=$(az acr show --name $ACR_NAME --output tsv --query [location])
 ACR_LOGIN_SERVER=$(az acr show --name $ACR_NAME --output tsv --query [loginServer])
