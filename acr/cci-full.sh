@@ -1,3 +1,30 @@
+# Prompt for input and then create an Azure Container Instance
+#
+# Usage
+# There are two ways to run the script
+# 1. Run it with no parameters
+#    cci-full.sh
+#    The user is prompted for PAT, org name, and resource group
+# 2. Run it with the resource group name as a parameter
+#    cci.sh resource-group-name
+#    If running this from a learn training module, we can provide the script name
+#    with the resource group as a parameter
+#    Then the only two prompts are PAT and org name
+
+# set -x #echo on
+
+
+read -p "Enter Azure DevOps PAT " AZP_TOKEN
+
+# read -p "Enter Agent name (Press enter for MyContainerAgent) " AZP_AGENT_NAME
+# echo ${AZP_AGENT_NAME:=MyContainerAgent}
+AZP_AGENT_NAME="container_agent_${DATE_SEC}"
+
+# read -p "Enter Agent pool (Press enter for Default) " AZP_POOL
+echo ${AZP_POOL:=Default}
+
+read -p "Enter Azure DevOps organization name " AZP_ORG
+
 # Create an Azure Container Registry
 if [ -z "$1" ]
 then
@@ -19,6 +46,8 @@ ACR_NAME="acrlearn${DATE_SEC}"
 
 az acr create --resource-group $RESOURCE_GROUP --name $ACR_NAME --sku Basic
 
+ACR_LOCATION=$(az acr show --name $ACR_NAME --output tsv --query [location])
+ACR_LOGIN_SERVER=$(az acr show --name $ACR_NAME --output tsv --query [loginServer])
 # Create the docker image
 curl https://raw.githubusercontent.com/juliakm/pipelines-containers/users/sdanie/acifull/acr/Dockerfile > ./Dockerfile
 
@@ -33,35 +62,10 @@ az acr update -n $ACR_NAME --admin-enabled true
 az acr credential show --name $ACR_NAME
 
 ACR_LOGIN=$(az acr credential show --name $ACR_NAME --output tsv --query [username])
-ACR_PWD=$(az acr credential show --name $ACR_NAME --output tsv --query [passwords[0]])
+ACR_PWD=$(az acr credential show --name $ACR_NAME --output tsv --query [passwords[0].value])
 
 
-# Prompt for input and then create an Azure Container Instance
-#
-# Usage
-# There are two ways to run the script
-# 1. Run it with no parameters
-#    cci.sh
-#    The user is prompted for PAT, org name, and resource group
-# 2. Run it with the resource group name as a parameter
-#    cci.sh resource-group-name
-#    If running this from a learn training module, we can provide the script name
-#    with the resource group as a parameter
-#    Then the only two prompts are PAT and org name
 
-# set -x #echo on
-
-
-read -p "Enter Azure DevOps PAT " AZP_TOKEN
-
-# read -p "Enter Agent name (Press enter for MyContainerAgent) " AZP_AGENT_NAME
-# echo ${AZP_AGENT_NAME:=MyContainerAgent}
-AZP_AGENT_NAME="container_agent_${DATE_SEC}"
-
-# read -p "Enter Agent pool (Press enter for Default) " AZP_POOL
-echo ${AZP_POOL:=Default}
-
-read -p "Enter Azure DevOps organization name " AZP_ORG
 
 
 
@@ -86,5 +90,5 @@ set -x #echo on
 # az container create --resource-group ${RESOURCE_GROUP} --name ${ACI_NAME} --image ghcr.io/juliakm/pipelines-containers:main --dns-name-label ${ACI_DNS} --ports 80 --environment-variables "AZP_TOKEN"="$AZP_TOKEN" "AZP_AGENT_NAME"="$AZP_AGENT_NAME" "AZP_POOL"="$AZP_POOL" "AZP_URL"="https://dev.azure.com/$AZP_ORG"
 
 # This one uses secure environment variables for PAT
-az container create --resource-group ${RESOURCE_GROUP} --name ${ACI_NAME} --image ghcr.io/juliakm/pipelines-containers:main --dns-name-label ${ACI_DNS} --ports 80 --secure-environment-variables "AZP_TOKEN"="$AZP_TOKEN" --environment-variables "AZP_AGENT_NAME"="$AZP_AGENT_NAME" "AZP_POOL"="$AZP_POOL" "AZP_URL"="https://dev.azure.com/$AZP_ORG"
+az container create --resource-group ${RESOURCE_GROUP} --name ${ACI_NAME} --image $ACR_LOGIN_SERVER/containeragent:v1 --dns-name-label ${ACI_DNS} --ports 80 --secure-environment-variables "AZP_TOKEN"="$AZP_TOKEN" --environment-variables "AZP_AGENT_NAME"="$AZP_AGENT_NAME" "AZP_POOL"="$AZP_POOL" "AZP_URL"="https://dev.azure.com/$AZP_ORG" --registry-username $ACR_LOGIN --registry-password $ACR_PWD --location $ACR_LOCATION
 
