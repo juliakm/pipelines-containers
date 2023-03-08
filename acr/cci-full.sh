@@ -20,10 +20,20 @@ ACR_NAME="acrlearn${DATE_SEC}"
 az acr create --resource-group $RESOURCE_GROUP --name $ACR_NAME --sku Basic
 
 # Create the docker image
-curl 
+curl https://raw.githubusercontent.com/juliakm/pipelines-containers/users/sdanie/acifull/acr/Dockerfile > ./Dockerfile
 
-## Get the credentials to this ACR so we can pull a module from it
+az acr build --registry $ACR_NAME --image containeragent:v1 .
 
+# Verify the image
+az acr repository list --name $ACR_NAME --output table
+
+# Get the credentials to allow deploying an ACI from our image
+az acr update -n $ACR_NAME --admin-enabled true
+
+az acr credential show --name $ACR_NAME
+
+ACR_LOGIN=$(az acr credential show --name $ACR_NAME --output tsv --query [username])
+ACR_PWD=$(az acr credential show --name $ACR_NAME --output tsv --query [passwords[0]])
 
 
 # Prompt for input and then create an Azure Container Instance
